@@ -7,6 +7,7 @@ import { IconClose, IconMenu, IconSearch } from "@/components/icons";
 
 const links = [
   { href: "/", label: "Início" },
+  { href: "/setores", label: "Setores" },
   { href: "/faq", label: "FAQ" },
   { href: "/livros", label: "Livros" },
   { href: "/sobre", label: "Sobre" },
