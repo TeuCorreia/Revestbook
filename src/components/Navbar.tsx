@@ -16,8 +16,9 @@ const links = [
 
 function Logo() {
   return (
-    <span className="whitespace-nowrap bg-linear-to-r from-orange-500 to-violet-600 bg-clip-text text-transparent">
-      Revestbook
+    <span className="whitespace-nowrap text-white">
+      RevestBem
+      <span className="text-ouro">+</span>
     </span>
   );
 }
@@ -46,13 +47,13 @@ export default function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-200/60 bg-white/80 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-marrom-escuro/40 bg-marrom shadow-md shadow-marrom-escuro/20">
       <div className="mx-auto flex h-16 max-w-6xl items-center gap-3 px-4 sm:px-6">
         <button
           type="button"
           aria-label="Abrir menu"
           onClick={openMenu}
-          className="inline-flex size-10 shrink-0 items-center justify-center rounded-lg text-slate-700 transition hover:bg-violet-50 md:hidden"
+          className="inline-flex size-10 shrink-0 items-center justify-center rounded-lg text-bege transition hover:bg-marrom-escuro/60 md:hidden"
         >
           <IconMenu className="size-6" />
         </button>
@@ -69,7 +70,7 @@ export default function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className="rounded-full px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-violet-50 hover:text-violet-700"
+              className="rounded-full px-4 py-2 text-sm font-medium text-bege/85 transition hover:bg-white/10 hover:text-ouro"
             >
               {link.label}
             </Link>
@@ -78,14 +79,14 @@ export default function Navbar() {
 
         <form
           onSubmit={(event) => event.preventDefault()}
-          className="ml-auto hidden items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 md:flex"
+          className="ml-auto hidden items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 md:flex"
         >
-          <IconSearch className="size-4 text-slate-400" />
+          <IconSearch className="size-4 text-bege/60" />
           <input
             type="search"
             placeholder="Buscar..."
             aria-label="Buscar"
-            className="w-40 bg-transparent text-sm text-slate-700 outline-none placeholder:text-slate-400"
+            className="w-40 bg-transparent text-sm text-bege outline-none placeholder:text-bege/60"
           />
         </form>
 
@@ -93,24 +94,24 @@ export default function Navbar() {
           type="button"
           aria-label="Buscar"
           onClick={() => setSearchOpen((open) => !open)}
-          className="ml-auto inline-flex size-10 items-center justify-center rounded-lg text-slate-700 transition hover:bg-violet-50 md:ml-0 md:hidden"
+          className="ml-auto inline-flex size-10 items-center justify-center rounded-lg text-bege transition hover:bg-marrom-escuro/60 md:ml-0 md:hidden"
         >
           <IconSearch className="size-5" />
         </button>
       </div>
 
       {searchOpen && (
-        <div className="border-t border-slate-200 bg-white px-4 py-3 md:hidden">
+        <div className="border-t border-white/10 bg-marrom-escuro px-4 py-3 md:hidden">
           <form
             onSubmit={(event) => event.preventDefault()}
-            className="flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2"
+            className="flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2"
           >
-            <IconSearch className="size-4 text-slate-400" />
+            <IconSearch className="size-4 text-bege/60" />
             <input
               type="search"
               placeholder="Buscar..."
               aria-label="Buscar"
-              className="w-full bg-transparent text-sm text-slate-700 outline-none placeholder:text-slate-400"
+              className="w-full bg-transparent text-sm text-bege outline-none placeholder:text-bege/60"
             />
           </form>
         </div>
@@ -123,10 +124,10 @@ export default function Navbar() {
               type="button"
               aria-label="Fechar menu"
               onClick={() => setMenuOpen(false)}
-              className="absolute inset-0 bg-slate-950/50"
+              className="absolute inset-0 bg-marrom-escuro/70"
             />
-            <div className="absolute inset-y-0 left-0 flex w-72 max-w-[80%] flex-col bg-white shadow-2xl">
-              <div className="flex h-16 shrink-0 items-center justify-between border-b border-slate-100 px-4">
+            <div className="absolute inset-y-0 left-0 flex w-72 max-w-[80%] flex-col bg-marrom-escuro shadow-2xl">
+              <div className="flex h-16 shrink-0 items-center justify-between border-b border-white/10 px-4">
                 <span className="text-lg font-extrabold tracking-tight">
                   <Logo />
                 </span>
@@ -134,7 +135,7 @@ export default function Navbar() {
                   type="button"
                   aria-label="Fechar menu"
                   onClick={() => setMenuOpen(false)}
-                  className="inline-flex size-10 items-center justify-center rounded-lg text-slate-700 transition hover:bg-slate-100"
+                  className="inline-flex size-10 items-center justify-center rounded-lg text-bege transition hover:bg-white/10"
                 >
                   <IconClose className="size-6" />
                 </button>
@@ -145,7 +146,7 @@ export default function Navbar() {
                     key={link.href}
                     href={link.href}
                     onClick={() => setMenuOpen(false)}
-                    className="rounded-xl px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-violet-50 hover:text-violet-700"
+                    className="rounded-xl px-4 py-3 text-sm font-medium text-bege transition hover:bg-white/10 hover:text-ouro"
                   >
                     {link.label}
                   </Link>

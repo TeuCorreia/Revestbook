@@ -6,28 +6,29 @@ export default function Hero() {
     <section className="relative flex min-h-[75vh] items-center justify-center overflow-hidden">
       <Image
         src="/hero-placeholder.svg"
-        alt="Ambiente de leitura e livros"
+        alt="Ambiente RevestBem+"
         fill
         priority
         className="object-cover"
       />
-      <div className="absolute inset-0 bg-black/65" />
+      <div className="absolute inset-0 bg-marrom-escuro/80" />
       <div className="relative z-10 flex flex-col items-center px-4 text-center text-white">
-        <p className="text-sm font-semibold uppercase tracking-[0.3em] text-orange-400 sm:text-base">
-          Bem-vindo(a) ao
+        <p className="text-sm font-semibold uppercase tracking-[0.3em] text-ouro sm:text-base">
+          Bem-vindo(a) à plataforma
         </p>
         <h1 className="mt-4 text-5xl font-extrabold tracking-tight sm:text-6xl md:text-7xl">
-          Revest<span className="text-orange-400">book</span>
+          RevestBem
+          <span className="text-ouro">+</span>
         </h1>
-        <p className="mt-6 max-w-xl text-base text-slate-200 sm:text-lg">
-          Tudo o que você precisa em um único ambiente. Explore a plataforma e
-          encontre respostas, conteúdos e muito mais.
+        <p className="mt-6 max-w-xl text-base text-bege/90 sm:text-lg">
+          Conhecimento, processos e pessoas conectados em um único ambiente.
+          Explore a plataforma e encontre respostas, conteúdos e muito mais.
         </p>
         <Link
-          href="/faq"
-          className="mt-8 rounded-full bg-linear-to-r from-orange-500 to-violet-600 px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-orange-500/25 transition hover:brightness-110"
+          href="/setores"
+          className="mt-8 rounded-full bg-ouro px-8 py-3 text-sm font-semibold text-marrom-escuro shadow-lg shadow-marrom-escuro/30 transition hover:brightness-110"
         >
-          Explorar agora
+          Explorar a plataforma
         </Link>
       </div>
     </section>

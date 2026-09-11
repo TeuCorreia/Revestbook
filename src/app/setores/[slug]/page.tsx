@@ -34,13 +34,13 @@ export default async function SetorPage({ params }: SetorPageProps) {
 
   return (
     <>
-      <PageHero title={setor.nome} gradient={setor.gradient}>
+      <PageHero title={setor.nome} gradient="from-marrom to-marrom-escuro">
         {setor.descricao}
       </PageHero>
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
         <Link
           href="/setores"
-          className="mb-8 inline-flex items-center text-sm font-medium text-violet-600 transition hover:text-violet-800"
+          className="mb-8 inline-flex items-center text-sm font-medium text-marrom transition hover:text-ouro"
         >
           ← Voltar para Setores
         </Link>
@@ -49,17 +49,17 @@ export default async function SetorPage({ params }: SetorPageProps) {
             <Link
               key={item.nome}
               href={`/setores/${setor.slug}/${slugify(item.nome)}`}
-              className="group rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+              className="group rounded-2xl border border-marrom/10 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:border-ouro/60 hover:shadow-md"
             >
               <div
                 className={`mb-4 inline-flex size-12 items-center justify-center rounded-xl bg-linear-to-br ${item.gradient} text-lg font-bold text-white`}
               >
                 {item.nome.charAt(0)}
               </div>
-              <h3 className="text-lg font-bold text-slate-900">
+              <h3 className="text-lg font-bold text-marrom-escuro">
                 {item.nome}
               </h3>
-              <p className="mt-2 text-sm leading-relaxed text-slate-500">
+              <p className="mt-2 text-sm leading-relaxed text-marrom/70">
                 {item.descricao}
               </p>
             </Link>

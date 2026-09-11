@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { readdir } from "node:fs/promises";
+import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import PageHero from "@/components/PageHero";
 import DocumentPreview from "@/components/DocumentPreview";
@@ -12,6 +12,31 @@ import { setores, slugify } from "@/data/setores";
 type ItemPageProps = {
   params: Promise<{ slug: string; item: string }>;
 };
+
+type ArquivoInfo = {
+  url: string;
+  nome: string;
+  tipo: "documento" | "video";
+  codigo: string;
+  categoria: string;
+  status: string;
+};
+
+type MetaArquivo = {
+  codigo?: string;
+  categoria?: string;
+  status?: string;
+};
+
+const STATUS_PADRAO = "Publicado";
+
+function extrairCodigo(nomeArquivo: string): string | null {
+  const nomeBase = nomeArquivo
+    .replace(/\.(docx|pptx)$/i, "")
+    .replace(/\.[^.]+$/i, "");
+  const match = nomeBase.match(/^([A-Z0-9]+(?:[_-][A-Z0-9]+)+)/);
+  return match ? match[1] : null;
+}
 
 export function generateStaticParams() {
   return setores.flatMap((setor) =>
@@ -37,7 +62,11 @@ export async function generateMetadata({
   };
 }
 
-async function listarArquivos(slug: string, item: string) {
+async function listarArquivos(
+  slug: string,
+  item: string,
+  categoriaPadrao: string,
+) {
   const absolutePath = path.join(
     process.cwd(),
     "public",
@@ -48,27 +77,49 @@ async function listarArquivos(slug: string, item: string) {
 
   try {
     const arquivos = await readdir(absolutePath);
-    const lista: {
-      url: string;
-      nome: string;
-      tipo: "documento" | "video";
-    }[] = [];
+
+    let metadados: Record<string, MetaArquivo> = {};
+    if (arquivos.includes("_metadados.json")) {
+      try {
+        const conteúdo = await readFile(
+          path.join(absolutePath, "_metadados.json"),
+          "utf8",
+        );
+        metadados = JSON.parse(conteúdo) as Record<string, MetaArquivo>;
+      } catch {
+        metadados = {};
+      }
+    }
+
+    const lista: ArquivoInfo[] = [];
+    let contador = 0;
 
     for (const arquivo of arquivos) {
       const url = `/documentos/${slug}/${item}/${encodeURIComponent(arquivo)}`;
-      if (ehDocumento(url)) {
-        lista.push({
-          url,
-          nome: arquivo.replace(/\.(docx|pptx)$/i, ""),
-          tipo: "documento",
-        });
-      } else if (ehVideo(url)) {
-        lista.push({
-          url,
-          nome: arquivo.replace(/\.[^.]+$/i, ""),
-          tipo: "video",
-        });
-      }
+      const tipo = ehDocumento(url)
+        ? "documento"
+        : ehVideo(url)
+          ? "video"
+          : null;
+      if (!tipo) continue;
+
+      contador += 1;
+      const meta = metadados[arquivo] ?? {};
+      const nome = arquivo
+        .replace(/\.(docx|pptx)$/i, "")
+        .replace(/\.[^.]+$/i, "");
+
+      lista.push({
+        url,
+        nome,
+        tipo,
+        codigo:
+          meta.codigo ??
+          extrairCodigo(arquivo) ??
+          `DOC-${String(contador).padStart(3, "0")}`,
+        categoria: meta.categoria ?? categoriaPadrao,
+        status: meta.status ?? STATUS_PADRAO,
+      });
     }
 
     return lista;
@@ -85,18 +136,16 @@ export default async function ItemPage({ params }: ItemPageProps) {
   if (!setor) notFound();
   if (!setorItem) notFound();
 
-  const arquivos = await listarArquivos(setor.slug, item);
+  const arquivos = await listarArquivos(setor.slug, item, setorItem.nome);
 
   return (
     <>
-      <PageHero title={setorItem.nome} gradient={setorItem.gradient}>
+      <PageHero title={setorItem.nome} gradient="from-marrom to-marrom-escuro">
         {setorItem.descricao}
       </PageHero>
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
         <div className="mb-8 flex flex-wrap items-center gap-2">
-          <span
-            className={`inline-flex items-center rounded-full bg-linear-to-r px-4 py-1.5 text-xs font-semibold text-white ${setor.gradient}`}
-          >
+          <span className="inline-flex items-center rounded-full bg-marrom px-4 py-1.5 text-xs font-semibold text-ouro">
             {setor.nome}
           </span>
         </div>
@@ -109,19 +158,25 @@ export default async function ItemPage({ params }: ItemPageProps) {
                   key={arquivo.url}
                   url={arquivo.url}
                   nome={arquivo.nome}
+                  codigo={arquivo.codigo}
+                  categoria={arquivo.categoria}
+                  status={arquivo.status}
                 />
               ) : (
                 <DocumentPreview
                   key={arquivo.url}
                   url={arquivo.url}
                   nome={arquivo.nome}
+                  codigo={arquivo.codigo}
+                  categoria={arquivo.categoria}
+                  status={arquivo.status}
                 />
               ),
             )}
           </div>
         ) : (
-          <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
-            <p className="text-center text-sm leading-relaxed text-slate-500">
+          <div className="rounded-2xl border border-marrom/10 bg-white p-8 shadow-sm">
+            <p className="text-center text-sm leading-relaxed text-marrom/60">
               Nenhum documento disponível nesta área. O conteúdo será adicionado
               em breve.
             </p>
@@ -130,7 +185,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
 
         <Link
           href={`/setores/${setor.slug}`}
-          className="mt-10 inline-flex items-center text-sm font-medium text-violet-600 transition hover:text-violet-800"
+          className="mt-10 inline-flex items-center text-sm font-medium text-marrom transition hover:text-ouro"
         >
           ← Voltar para {setor.nome}
         </Link>

@@ -16,11 +16,11 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Revestbook",
-    template: "%s | Revestbook",
+    default: "RevestBem+",
+    template: "%s | RevestBem+",
   },
   description:
-    "Centralize informações e funcionalidades em um único ambiente com o Revestbook.",
+    "Conhecimento, processos e pessoas conectados na plataforma RevestBem+.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -29,7 +29,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="pt-BR"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col bg-white text-slate-900">
+      <body className="flex min-h-full flex-col bg-white text-marrom-escuro">
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />

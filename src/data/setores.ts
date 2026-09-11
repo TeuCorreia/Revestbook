@@ -28,43 +28,43 @@ export const setores: Setor[] = [
     nome: "Logística",
     descricao:
       "Planejamento e controle de estoque, distribuição e processos de entrega.",
-    gradient: "from-emerald-500 to-teal-600",
+    gradient: "from-marrom to-ouro",
     itens: [
       {
         nome: "Manual de Logística",
         descricao:
           "N/A.",
-        gradient: "from-emerald-500 to-teal-600",
+        gradient: "from-marrom to-marrom-escuro",
       },
       {
         nome: "Pop's",
         descricao:
           "N/A.",
-        gradient: "from-teal-500 to-cyan-600",
+        gradient: "from-ouro to-marrom",
       },
       {
         nome: "Instituições de Trabalho",
         descricao:
           "N/A.",
-        gradient: "from-cyan-500 to-sky-600",
+        gradient: "from-marrom-escuro to-marrom",
       },
       {
         nome: "Descriçao de Cargos",
         descricao:
           "N/A.",
-        gradient: "from-green-500 to-emerald-600",
+        gradient: "from-marrom to-ouro",
       },
       {
         nome: "Treinamentos",
         descricao:
           "N/A.",
-        gradient: "from-teal-400 to-green-300",
+        gradient: "from-marrom-escuro to-ouro",
       },
       {
         nome: "Shorts de Instruções",
         descricao:
           "N/A.",
-        gradient: "from-sky-300 to-cyan-500",
+        gradient: "from-marrom to-marrom-escuro",
       },
     ],
   },
@@ -73,13 +73,13 @@ export const setores: Setor[] = [
     nome: "T.I.",
     descricao:
       "Desenvolvimento, infraestrutura, suporte e segurança da informação.",
-    gradient: "from-blue-500 to-indigo-600",
+    gradient: "from-marrom-escuro to-marrom",
     itens: [
       {
         nome: "N/A",
         descricao:
           "N/A.",
-        gradient: "from-blue-500 to-indigo-600",
+        gradient: "from-marrom-escuro to-marrom",
       },
     ],
   },
@@ -88,13 +88,13 @@ export const setores: Setor[] = [
     nome: "Financeiro",
     descricao:
       "Controle financeiro, orçamentos, fluxo de caixa e relatórios gerenciais.",
-    gradient: "from-amber-500 to-orange-600",
+    gradient: "from-ouro to-marrom",
     itens: [
       {
         nome: "N/A",
         descricao:
           "N/A.",
-        gradient: "from-amber-500 to-orange-600",
+        gradient: "from-ouro to-marrom",
       },
     ],
   },
@@ -103,13 +103,13 @@ export const setores: Setor[] = [
     nome: "RH",
     descricao:
       "Gestão de pessoas, recrutamento, treinamento e clima organizacional.",
-    gradient: "from-rose-500 to-pink-600",
+    gradient: "from-marrom-escuro to-ouro",
     itens: [
       {
         nome: "N/A",
         descricao:
           "N/A.",
-        gradient: "from-rose-500 to-pink-600",
+        gradient: "from-marrom-escuro to-ouro",
       },
     ],
   },
@@ -118,13 +118,13 @@ export const setores: Setor[] = [
     nome: "Fiscal",
     descricao:
       "Cumprimento de obrigações fiscais, tributárias e regulatórias.",
-    gradient: "from-violet-500 to-purple-600",
+    gradient: "from-marrom to-marrom-escuro",
     itens: [
       {
         nome: "N/A",
         descricao:
           "N/A.",
-        gradient: "from-violet-500 to-purple-600",
+        gradient: "from-marrom to-marrom-escuro",
       },
     ],
   },
@@ -133,13 +133,13 @@ export const setores: Setor[] = [
     nome: "Comercial",
     descricao:
       "Prospecção, relacionamento com clientes, propostas e fechamento de negócios.",
-    gradient: "from-cyan-500 to-blue-600",
+    gradient: "from-ouro to-marrom-escuro",
     itens: [
       {
         nome: "N/A",
         descricao:
           "N/A.",
-        gradient: "from-cyan-500 to-blue-600",
+        gradient: "from-ouro to-marrom-escuro",
       },
     ],
   },
@@ -148,13 +148,13 @@ export const setores: Setor[] = [
     nome: "Marketing",
     descricao:
       "Comunicação da marca, campanhas, conteúdo e presença digital.",
-    gradient: "from-fuchsia-500 to-violet-600",
+    gradient: "from-marrom-escuro to-marrom",
     itens: [
       {
         nome: "N/A",
         descricao:
           "N/A.",
-        gradient: "from-fuchsia-500 to-violet-600",
+        gradient: "from-marrom-escuro to-marrom",
       },
     ],
   },

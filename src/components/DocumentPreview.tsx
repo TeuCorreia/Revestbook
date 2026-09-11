@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { renderAsync } from "docx-preview";
 import { init } from "pptx-preview";
 import { extensaoDeUrl } from "@/data/arquivos";
+import StatusBadge from "@/components/StatusBadge";
 
 type Previewer = ReturnType<typeof init>;
 
@@ -114,13 +115,13 @@ function PreviewViewport({ url, nome, telaCheia }: PreviewViewportProps) {
   return (
     <div className={telaCheia ? "h-full overflow-auto" : ""}>
       {status === "carregando" && (
-        <p className="px-6 py-10 text-center text-sm text-slate-400">
+        <p className="px-6 py-10 text-center text-sm text-marrom/50">
           Carregando visualização...
           <span className="sr-only">{nome}</span>
         </p>
       )}
       {status === "erro" && (
-        <p className="px-6 py-10 text-center text-sm text-slate-400">
+        <p className="px-6 py-10 text-center text-sm text-marrom/50">
           Não foi possível visualizar este arquivo. Use o botão para baixá-lo.
         </p>
       )}
@@ -142,20 +143,26 @@ function PreviewViewport({ url, nome, telaCheia }: PreviewViewportProps) {
 type DocumentPreviewProps = {
   url: string;
   nome: string;
+  codigo: string;
+  categoria: string;
+  status: string;
 };
 
 const coresExtensoes: Record<string, string> = {
-  docx: "bg-blue-100 text-blue-700",
-  pptx: "bg-orange-100 text-orange-700",
+  docx: "bg-marrom text-white",
+  pptx: "bg-ouro text-marrom-escuro",
 };
 
 export default function DocumentPreview({
   url,
   nome,
+  codigo,
+  categoria,
+  status,
 }: DocumentPreviewProps) {
   const ext = extensaoDeUrl(url);
   const [telaCheia, setTelaCheia] = useState(false);
-  const badgeClasse = coresExtensoes[ext] ?? "bg-slate-100 text-slate-700";
+  const badgeClasse = coresExtensoes[ext] ?? "bg-bege text-marrom-escuro";
 
   useEffect(() => {
     if (!telaCheia) return;
@@ -167,15 +174,15 @@ export default function DocumentPreview({
   }, [telaCheia]);
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-      <div className="flex items-center justify-between gap-4 border-b border-slate-100 bg-slate-50 px-6 py-4">
+    <div className="overflow-hidden rounded-2xl border border-marrom/10 bg-white shadow-md shadow-marrom/5">
+      <div className="flex items-center justify-between gap-4 border-b border-marrom/10 bg-bege px-6 py-4">
         <div className="flex min-w-0 items-center gap-3">
           <span
             className={`inline-flex shrink-0 items-center rounded-md px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${badgeClasse}`}
           >
             {ext || "?"}
           </span>
-          <h3 className="min-w-0 truncate text-sm font-bold text-slate-900">
+          <h3 className="min-w-0 truncate text-sm font-bold text-marrom-escuro">
             {nome}
           </h3>
         </div>
@@ -183,7 +190,7 @@ export default function DocumentPreview({
           <button
             type="button"
             onClick={() => setTelaCheia(true)}
-            className="inline-flex items-center gap-1.5 rounded-full border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:border-violet-300 hover:text-violet-700"
+            className="inline-flex items-center gap-1.5 rounded-full border border-marrom/20 bg-white px-4 py-2 text-xs font-semibold text-marrom transition hover:border-ouro hover:text-marrom-escuro"
           >
             <IconExpandir />
             Tela cheia
@@ -191,22 +198,38 @@ export default function DocumentPreview({
           <a
             href={url}
             download
-            className="inline-flex items-center rounded-full bg-violet-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-violet-700"
+            className="inline-flex items-center rounded-full bg-ouro px-4 py-2 text-xs font-semibold text-marrom-escuro transition hover:brightness-110"
           >
             Baixar (.{ext})
           </a>
         </div>
       </div>
 
+      <div className="flex flex-wrap items-center gap-x-5 gap-y-2 border-b border-marrom/10 bg-bege/60 px-6 py-3">
+        <span className="text-xs text-marrom/70">
+          Código: <strong className="font-semibold text-marrom-escuro">{codigo}</strong>
+        </span>
+        <span className="text-xs text-marrom/70">
+          Categoria:{" "}
+          <strong className="font-semibold text-marrom-escuro">{categoria}</strong>
+        </span>
+        <span className="ml-auto">
+          <StatusBadge status={status} />
+        </span>
+      </div>
+
       <PreviewViewport url={url} nome={nome} />
 
       {telaCheia &&
         createPortal(
-          <div className="fixed inset-0 z-[60] flex flex-col bg-slate-950">
+          <div className="fixed inset-0 z-[60] flex flex-col bg-marrom-escuro">
             <div className="flex items-center justify-between gap-4 border-b border-white/10 px-6 py-4">
-              <span className="min-w-0 truncate text-sm font-bold text-white">
-                {nome}
-              </span>
+              <div className="min-w-0">
+                <span className="block truncate text-sm font-bold text-white">
+                  {nome}
+                </span>
+                <span className="text-xs text-bege/70">{codigo}</span>
+              </div>
               <button
                 type="button"
                 onClick={() => setTelaCheia(false)}

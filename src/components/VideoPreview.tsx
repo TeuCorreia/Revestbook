@@ -3,13 +3,23 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { extensaoDeUrl } from "@/data/arquivos";
+import StatusBadge from "@/components/StatusBadge";
 
 type VideoPreviewProps = {
   url: string;
   nome: string;
+  codigo: string;
+  categoria: string;
+  status: string;
 };
 
-export default function VideoPreview({ url, nome }: VideoPreviewProps) {
+export default function VideoPreview({
+  url,
+  nome,
+  codigo,
+  categoria,
+  status,
+}: VideoPreviewProps) {
   const ext = extensaoDeUrl(url).toUpperCase();
   const [telaCheia, setTelaCheia] = useState(false);
 
@@ -23,13 +33,13 @@ export default function VideoPreview({ url, nome }: VideoPreviewProps) {
   }, [telaCheia]);
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-      <div className="flex items-center justify-between gap-4 border-b border-slate-100 bg-slate-50 px-6 py-4">
+    <div className="overflow-hidden rounded-2xl border border-marrom/10 bg-white shadow-md shadow-marrom/5">
+      <div className="flex items-center justify-between gap-4 border-b border-marrom/10 bg-bege px-6 py-4">
         <div className="flex min-w-0 items-center gap-3">
-          <span className="inline-flex shrink-0 items-center rounded-md bg-red-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-red-700">
+          <span className="inline-flex shrink-0 items-center rounded-md bg-marrom px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-bege">
             {ext || "?"}
           </span>
-          <h3 className="min-w-0 truncate text-sm font-bold text-slate-900">
+          <h3 className="min-w-0 truncate text-sm font-bold text-marrom-escuro">
             {nome}
           </h3>
         </div>
@@ -38,7 +48,7 @@ export default function VideoPreview({ url, nome }: VideoPreviewProps) {
             href={url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center rounded-full border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:border-violet-300 hover:text-violet-700"
+            className="inline-flex items-center rounded-full border border-marrom/20 bg-white px-4 py-2 text-xs font-semibold text-marrom transition hover:border-ouro hover:text-marrom-escuro"
           >
             <IconReproduzir />
             Abrir vídeo
@@ -46,7 +56,7 @@ export default function VideoPreview({ url, nome }: VideoPreviewProps) {
           <button
             type="button"
             onClick={() => setTelaCheia(true)}
-            className="inline-flex items-center gap-1.5 rounded-full border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:border-violet-300 hover:text-violet-700"
+            className="inline-flex items-center gap-1.5 rounded-full border border-marrom/20 bg-white px-4 py-2 text-xs font-semibold text-marrom transition hover:border-ouro hover:text-marrom-escuro"
           >
             <IconExpandir />
             Tela cheia
@@ -54,11 +64,24 @@ export default function VideoPreview({ url, nome }: VideoPreviewProps) {
           <a
             href={url}
             download
-            className="inline-flex items-center rounded-full bg-violet-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-violet-700"
+            className="inline-flex items-center rounded-full bg-ouro px-4 py-2 text-xs font-semibold text-marrom-escuro transition hover:brightness-110"
           >
             Baixar (.{ext.toLowerCase()})
           </a>
         </div>
+      </div>
+
+      <div className="flex flex-wrap items-center gap-x-5 gap-y-2 border-b border-marrom/10 bg-bege/60 px-6 py-3">
+        <span className="text-xs text-marrom/70">
+          Código: <strong className="font-semibold text-marrom-escuro">{codigo}</strong>
+        </span>
+        <span className="text-xs text-marrom/70">
+          Categoria:{" "}
+          <strong className="font-semibold text-marrom-escuro">{categoria}</strong>
+        </span>
+        <span className="ml-auto">
+          <StatusBadge status={status} />
+        </span>
       </div>
 
       <div className="bg-black">
@@ -73,16 +96,19 @@ export default function VideoPreview({ url, nome }: VideoPreviewProps) {
 
       {telaCheia &&
         createPortal(
-          <div className="fixed inset-0 z-[60] flex flex-col bg-slate-950">
+          <div className="fixed inset-0 z-[60] flex flex-col bg-marrom-escuro">
             <div className="flex items-center justify-between gap-4 border-b border-white/10 px-6 py-4">
-              <span className="min-w-0 truncate text-sm font-bold text-white">
-                {nome}
-              </span>
+              <div className="min-w-0">
+                <span className="block truncate text-sm font-bold text-white">
+                  {nome}
+                </span>
+                <span className="text-xs text-bege/70">{codigo}</span>
+              </div>
               <div className="flex shrink-0 items-center gap-2">
                 <a
                   href={url}
                   download
-                  className="inline-flex items-center rounded-full bg-violet-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-violet-700"
+                  className="inline-flex items-center rounded-full bg-ouro px-4 py-2 text-xs font-semibold text-marrom-escuro transition hover:brightness-110"
                 >
                   Baixar (.{ext.toLowerCase()})
                 </a>

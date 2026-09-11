@@ -2,7 +2,7 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #0f172a;
+  --foreground: #3b2412;
 }
 
 @theme inline {
@@ -10,6 +10,11 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --color-marrom: #5a3a1e;
+  --color-marrom-escuro: #3b2412;
+  --color-ouro: #ffc107;
+  --color-bege: #f3e9d2;
 }
 
 body {
