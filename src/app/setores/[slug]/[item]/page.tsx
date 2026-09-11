@@ -4,7 +4,9 @@ import { notFound } from "next/navigation";
 import { readdir } from "node:fs/promises";
 import path from "node:path";
 import PageHero from "@/components/PageHero";
-import WordPreview from "@/components/WordPreview";
+import DocumentPreview from "@/components/DocumentPreview";
+import VideoPreview from "@/components/VideoPreview";
+import { ehDocumento, ehVideo } from "@/data/arquivos";
 import { setores, slugify } from "@/data/setores";
 
 type ItemPageProps = {
@@ -35,7 +37,7 @@ export async function generateMetadata({
   };
 }
 
-async function listarDocumentos(slug: string, item: string) {
+async function listarArquivos(slug: string, item: string) {
   const absolutePath = path.join(
     process.cwd(),
     "public",
@@ -46,12 +48,30 @@ async function listarDocumentos(slug: string, item: string) {
 
   try {
     const arquivos = await readdir(absolutePath);
-    return arquivos
-      .filter((arquivo) => arquivo.toLowerCase().endsWith(".docx"))
-      .map((arquivo) => ({
-        url: `/documentos/${slug}/${item}/${encodeURIComponent(arquivo)}`,
-        nome: arquivo.replace(/\.docx$/i, ""),
-      }));
+    const lista: {
+      url: string;
+      nome: string;
+      tipo: "documento" | "video";
+    }[] = [];
+
+    for (const arquivo of arquivos) {
+      const url = `/documentos/${slug}/${item}/${encodeURIComponent(arquivo)}`;
+      if (ehDocumento(url)) {
+        lista.push({
+          url,
+          nome: arquivo.replace(/\.(docx|pptx)$/i, ""),
+          tipo: "documento",
+        });
+      } else if (ehVideo(url)) {
+        lista.push({
+          url,
+          nome: arquivo.replace(/\.[^.]+$/i, ""),
+          tipo: "video",
+        });
+      }
+    }
+
+    return lista;
   } catch {
     return [];
   }
@@ -65,14 +85,14 @@ export default async function ItemPage({ params }: ItemPageProps) {
   if (!setor) notFound();
   if (!setorItem) notFound();
 
-  const documentos = await listarDocumentos(setor.slug, item);
+  const arquivos = await listarArquivos(setor.slug, item);
 
   return (
     <>
       <PageHero title={setorItem.nome} gradient={setorItem.gradient}>
         {setorItem.descricao}
       </PageHero>
-      <section className="mx-auto max-w-4xl px-4 py-16 sm:px-6">
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
         <div className="mb-8 flex flex-wrap items-center gap-2">
           <span
             className={`inline-flex items-center rounded-full bg-linear-to-r px-4 py-1.5 text-xs font-semibold text-white ${setor.gradient}`}
@@ -81,15 +101,23 @@ export default async function ItemPage({ params }: ItemPageProps) {
           </span>
         </div>
 
-        {documentos.length > 0 ? (
+        {arquivos.length > 0 ? (
           <div className="grid gap-8">
-            {documentos.map((documento) => (
-              <WordPreview
-                key={documento.url}
-                url={documento.url}
-                nome={documento.nome}
-              />
-            ))}
+            {arquivos.map((arquivo) =>
+              arquivo.tipo === "video" ? (
+                <VideoPreview
+                  key={arquivo.url}
+                  url={arquivo.url}
+                  nome={arquivo.nome}
+                />
+              ) : (
+                <DocumentPreview
+                  key={arquivo.url}
+                  url={arquivo.url}
+                  nome={arquivo.nome}
+                />
+              ),
+            )}
           </div>
         ) : (
           <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
